@@ -10,8 +10,8 @@ import (
 
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten/text"
-	"../assets/fonts"
-	pacimages "../assets/images"
+	"github.com/kgosse/pacmanresources/fonts"
+	pacimages "github.com/kgosse/pacmanresources/images"
 	"golang.org/x/image/font"
 )
 

@@ -1,7 +1,7 @@
 package pacman
 
 import (
-	pacimages "github.com/S4ND1X/PacmanGo/assets"
+	pacimages "github.com/kgosse/pacmanresources"
 	"github.com/hajimehoshi/ebiten"
 )
 

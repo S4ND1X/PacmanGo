@@ -1,4 +1,4 @@
-module github.com/S4ND1X/PacmanGo.git
+module github.com/S4ND1X/PacmanGo
 
 go 1.13
 
