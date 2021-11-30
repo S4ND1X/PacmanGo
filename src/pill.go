@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func ProcessPill(pillMx *sync.Mutex, ghostsStatusMx *sync.RWMutex, ghosts []*Ghost, pillTimer *time.Timer, cfg *Config) {
+func ProcessPill(pillMx *sync.Mutex, ghostsStatusMx *sync.RWMutex, ghosts *[]*Ghost, pillTimer *time.Timer, cfg *Config) {
 	pillMx.Lock()
 	go UpdateGhosts(ghosts, GhostStatusBlue, ghostsStatusMx)
 	if pillTimer != nil {
