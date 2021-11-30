@@ -213,7 +213,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 - Jorge Sanchez Diaz - @S4ND1X - georgesanchez.diazjr@gmail.com
 - Jose Luis Aguilar Nucamendi - @JosxLuis - luisaguilarnucamendi@gmail.com
-- Agustin Salvador Quintanar De la Mora - @AgusQuintanar - georgesanchez.diazjr@gmail.com
+- Agustin Salvador Quintanar De la Mora - @AgusQuintanar - agusquintanar17@gmail.com
 
 Project Link: [https://github.com/S4ND1X/PacmanGo](https://github.com/S4ND1X/PacmanGo)
 
