@@ -262,7 +262,7 @@ var pillTimer *time.Timer
 
 func processPill() {
 	pillMx.Lock()
-	updateGhosts(ghosts, GhostStatusBlue)
+	go updateGhosts(ghosts, GhostStatusBlue)
 	if pillTimer != nil {
 		pillTimer.Stop()
 	}
@@ -271,7 +271,7 @@ func processPill() {
 	<-pillTimer.C
 	pillMx.Lock()
 	pillTimer.Stop()
-	updateGhosts(ghosts, GhostStatusNormal)
+	go updateGhosts(ghosts, GhostStatusNormal)
 	pillMx.Unlock()
 }
 
@@ -371,13 +371,13 @@ func main() {
 						fmt.Print(cfg.Death)
 						moveCursor(len(maze)+2, 0)
 						ghostsStatusMx.RUnlock()
-						updateGhosts(ghosts, GhostStatusNormal)
+						go updateGhosts(ghosts, GhostStatusNormal)
 						time.Sleep(1000 * time.Millisecond) //dramatic pause before reseting player position
 						player.row, player.col = player.startRow, player.startCol
 					}
 				} else if g.status == GhostStatusBlue {
 					ghostsStatusMx.RUnlock()
-					updateGhosts([]*ghost{g}, GhostStatusNormal)
+					go updateGhosts([]*ghost{g}, GhostStatusNormal)
 					g.position.row, g.position.col = g.position.startRow, g.position.startCol
 				}
 			}
@@ -401,4 +401,6 @@ func main() {
 		// repeat
 		time.Sleep(200 * time.Millisecond)
 	}
+
+
 }
