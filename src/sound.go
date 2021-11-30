@@ -5,7 +5,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/audio"
 	"github.com/hajimehoshi/ebiten/audio/wav"
-	pacsounds "../assets/sounds"
+	pacsounds "github.com/kgosse/pacmanresources/sounds"
 )
 
 type sounds struct {
