@@ -149,10 +149,10 @@ _Don't worry if this is your first time using Golang this, guide should set ever
    go run main.go
 ```
 
-4. To specify number of enemies, use the command line argument `-n`
+4. To specify number of enemies specify a integer value in the command line between 1 and 12
 
 ```sh
-   go run main.go -n 5
+   go run main.go < 1 - 12 >
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -163,13 +163,15 @@ _Don't worry if this is your first time using Golang this, guide should set ever
 
 This is a simple Pacman game, you can use the arrow keys to move the Pacman and the WASD keys to move the ghosts.
 
-If you want to play with more enemies, you can use the command line argument `-n`
+If you want to play with more enemies, you set the number of enemies in the command line.
 
-    go run main.go -n 5
+    go run main.go < 1 - 12 >
 
 If you die terminal process will be ended and you can start again by running the application again.
 
     go run main.go
+
+If you want to end the game press the `esc` key.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
