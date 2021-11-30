@@ -3,8 +3,8 @@ package pacman
 import (
 	"math"
 
+	pacimages "github.com/S4ND1X/PacmanGo/assets"
 	"github.com/hajimehoshi/ebiten"
-	pacimages "github.com/kgosse/pacmanresources/images"
 )
 
 type fruitManager struct {
