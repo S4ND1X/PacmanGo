@@ -1,8 +1,8 @@
 package pacman
 
 import (
+	pacimages "github.com/S4ND1X/PacmanGo/assets"
 	"github.com/hajimehoshi/ebiten"
-	pacimages "github.com/kgosse/pacmanresources/images"
 )
 
 type player struct {
