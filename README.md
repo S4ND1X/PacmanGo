@@ -244,6 +244,6 @@ We would like include the following resource that helped us create this project:
 [license-url]: https://github.com/S4ND1X/PacmanGo/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/jorgesanchezdiaz/
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: images/screenshot.jpeg
 [architecture-screenshot]: images/architecture.png
 [flow_diagram-screenshot]: images/flow_diagram.png
