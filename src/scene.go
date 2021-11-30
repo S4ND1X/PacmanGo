@@ -2,7 +2,7 @@ package pacman
 
 import (
 	"github.com/hajimehoshi/ebiten"
-	pacimages "github.com/kgosse/pacmanresources/images"
+	pacimages "../assets/images"
 )
 
 type scene struct {
