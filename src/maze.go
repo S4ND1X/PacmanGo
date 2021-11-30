@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func LoadMaze(file string, maze *[]string, ghosts *[]*Ghost, player *Sprite, numDots *int) error {
+func LoadMaze(file string, maze *[]string, ghosts *[]*Ghost, player *Sprite, numDots *int, ghostsNum int) error {
 	f, err := os.Open(file) // open file
 	if err != nil {
 		return err
@@ -24,7 +24,9 @@ func LoadMaze(file string, maze *[]string, ghosts *[]*Ghost, player *Sprite, num
 			case 'P':
 				*player = Sprite{Row: row, Col: col, StartRow: row, StartCol: col}
 			case 'G':
-				*ghosts = append(*ghosts, &Ghost{Position: Sprite{Row: row, Col: col, StartRow: row, StartCol: col}, Status: GhostStatusNormal})
+				if len(*ghosts) < ghostsNum {
+					*ghosts = append(*ghosts, &Ghost{Position: Sprite{Row: row, Col: col, StartRow: row, StartCol: col}, Status: GhostStatusNormal})
+				}
 			case '.':
 				*numDots++
 			}

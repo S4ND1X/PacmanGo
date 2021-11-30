@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
+	"strconv"
 	"sync"
 	"time"
 
@@ -30,11 +32,23 @@ func main() {
 
 	flag.Parse() // parse the command line arguments
 
-	// initialize game
+	var ghostNum int
+	if len(os.Args) != 2 {
+		log.Println("No ghost number provided or too many arguments. Correct usage: go run main.go [ghost number]")
+		return
+	}
+
+	ghostNum, _ = strconv.Atoi(os.Args[1])
+
+	if ghostNum < 1 || ghostNum > 12 {
+		log.Println("Invalid ghost number. It must be between 1 and 12")
+		return
+	}
+
 	pacman.Initialise()
 	defer pacman.Cleanup()
 
-	err := pacman.LoadResources(*mazeFile, *configFile, &maze, &ghosts, &player, &numDots, &cfg)
+	err := pacman.LoadResources(*mazeFile, *configFile, &maze, &ghosts, &player, &numDots, &cfg, ghostNum)
 	if err != nil {
 		log.Fatal(err)
 		return
