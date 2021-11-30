@@ -9,10 +9,11 @@ import (
 	"log"
 	"math/rand"
 	"os"
-	"os/exec"
 	"strconv"
 	"sync"
 	"time"
+
+	pacman "PacmanGo/src"
 
 	"github.com/danicat/simpleansi"
 )
@@ -66,14 +67,15 @@ var numDots int
 var lives = 3
 
 func loadConfig(file string) error {
-	f, err := os.Open(file)
+	f, err := os.Open(file) // open file
 	if err != nil {
-		return err
+		return err 
 	}
-	defer f.Close()
 
-	decoder := json.NewDecoder(f)
-	err = decoder.Decode(&cfg)
+	defer f.Close() // close file on return
+
+	decoder := json.NewDecoder(f) // create json decoder
+	err = decoder.Decode(&cfg) // decode file into config struct
 	if err != nil {
 		return err
 	}
@@ -82,16 +84,16 @@ func loadConfig(file string) error {
 }
 
 func loadMaze(file string) error {
-	f, err := os.Open(file)
-	if err != nil {
+	f, err := os.Open(file) // open file
+	if err != nil { 
 		return err
 	}
-	defer f.Close()
+	defer f.Close() // close file on return
 
-	scanner := bufio.NewScanner(f)
-	for scanner.Scan() {
-		line := scanner.Text()
-		maze = append(maze, line)
+	scanner := bufio.NewScanner(f) // create scanner
+	for scanner.Scan() {  
+		line := scanner.Text() // get next line
+		maze = append(maze, line) // append line to maze
 	}
 
 	for row, line := range maze {
@@ -169,33 +171,7 @@ func getLivesAsEmoji() string {
 	return buf.String()
 }
 
-func readInput() (string, error) {
-	buffer := make([]byte, 100)
 
-	cnt, err := os.Stdin.Read(buffer)
-	if err != nil {
-		return "", err
-	}
-
-	if cnt == 1 && buffer[0] == 0x1b {
-		return "ESC", nil
-	} else if cnt >= 3 {
-		if buffer[0] == 0x1b && buffer[1] == '[' {
-			switch buffer[2] {
-			case 'A':
-				return "UP", nil
-			case 'B':
-				return "DOWN", nil
-			case 'C':
-				return "RIGHT", nil
-			case 'D':
-				return "LEFT", nil
-			}
-		}
-	}
-
-	return "", nil
-}
 
 func makeMove(oldRow, oldCol int, dir string) (newRow, newCol int) {
 	newRow, newCol = oldRow, oldCol
@@ -293,32 +269,14 @@ func moveGhosts() {
 	}
 }
 
-func initialise() {
-	cbTerm := exec.Command("stty", "cbreak", "-echo")
-	cbTerm.Stdin = os.Stdin
 
-	err := cbTerm.Run()
-	if err != nil {
-		log.Fatalln("unable to activate cbreak mode:", err)
-	}
-}
-
-func cleanup() {
-	cookedTerm := exec.Command("stty", "-cbreak", "echo")
-	cookedTerm.Stdin = os.Stdin
-
-	err := cookedTerm.Run()
-	if err != nil {
-		log.Fatalln("unable to activate cooked mode:", err)
-	}
-}
 
 func main() {
 	flag.Parse()
 
 	// initialize game
-	initialise()
-	defer cleanup()
+	pacman.Initialise()
+	defer pacman.Cleanup()
 
 	// load resources
 	err := loadMaze(*mazeFile)
@@ -337,7 +295,7 @@ func main() {
 	input := make(chan string)
 	go func(ch chan<- string) {
 		for {
-			input, err := readInput()
+			input, err := pacman.ReadInput()
 			if err != nil {
 				log.Print("error reading input:", err)
 				ch <- "ESC"
