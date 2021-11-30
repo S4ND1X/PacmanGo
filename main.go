@@ -23,23 +23,15 @@ var (
 	mazeFile   = flag.String("maze-file", "maze01.txt", "path to a custom maze file")
 )
 
-type sprite struct {
-	row      int
-	col      int
-	startRow int
-	startCol int
-}
 
-type ghost struct {
-	position sprite
-	status   GhostStatus
-}
 
-type GhostStatus string
+
+
+
 
 const (
-	GhostStatusNormal GhostStatus = "Normal"
-	GhostStatusBlue   GhostStatus = "Blue"
+	GhostStatusNormal pacman.GhostStatus = "Normal"
+	GhostStatusBlue   pacman.GhostStatus = "Blue"
 )
 
 var ghostsStatusMx sync.RWMutex
@@ -59,8 +51,8 @@ type config struct {
 }
 
 var cfg config
-var player sprite
-var ghosts []*ghost
+var player pacman.Sprite
+var ghosts []*pacman.Ghost
 var maze []string
 var score int
 var numDots int
@@ -100,9 +92,9 @@ func loadMaze(file string) error {
 		for col, char := range line {
 			switch char {
 			case 'P':
-				player = sprite{row, col, row, col}
+				player = pacman.Sprite{row, col, row, col}
 			case 'G':
-				ghosts = append(ghosts, &ghost{sprite{row, col, row, col}, GhostStatusNormal})
+				ghosts = append(ghosts, &pacman.Ghost{pacman.Sprite{row, col, row, col}, GhostStatusNormal})
 			case '.':
 				numDots++
 			}
@@ -138,15 +130,15 @@ func printScreen() {
 		fmt.Println()
 	}
 
-	moveCursor(player.row, player.col)
+	moveCursor(player.Row, player.Col)
 	fmt.Print(cfg.Player)
 
 	ghostsStatusMx.RLock()
 	for _, g := range ghosts {
-		moveCursor(g.position.row, g.position.col)
-		if g.status == GhostStatusNormal {
+		moveCursor(g.Position.Row, g.Position.Col)
+		if g.Status == GhostStatusNormal {
 			fmt.Printf(cfg.Ghost)
-		} else if g.status == GhostStatusBlue {
+		} else if g.Status == GhostStatusBlue {
 			fmt.Printf(cfg.GhostBlue)
 		}
 	}
@@ -208,29 +200,29 @@ func makeMove(oldRow, oldCol int, dir string) (newRow, newCol int) {
 }
 
 func movePlayer(dir string) {
-	player.row, player.col = makeMove(player.row, player.col, dir)
+	player.Row, player.Col = makeMove(player.Row, player.Col, dir)
 
 	removeDot := func(row, col int) {
 		maze[row] = maze[row][0:col] + " " + maze[row][col+1:]
 	}
 
-	switch maze[player.row][player.col] {
+	switch maze[player.Row][player.Col] {
 	case '.':
 		numDots--
 		score++
-		removeDot(player.row, player.col)
+		removeDot(player.Row, player.Col)
 	case 'X':
 		score += 10
-		removeDot(player.row, player.col)
+		removeDot(player.Row, player.Col)
 		go processPill()
 	}
 }
 
-func updateGhosts(ghosts []*ghost, ghostStatus GhostStatus) {
+func updateGhosts(ghosts []*pacman.Ghost, ghostStatus pacman.GhostStatus) {
 	ghostsStatusMx.Lock()
 	defer ghostsStatusMx.Unlock()
 	for _, g := range ghosts {
-		g.status = ghostStatus
+		g.Status = ghostStatus
 	}
 }
 
@@ -265,7 +257,7 @@ func drawDirection() string {
 func moveGhosts() {
 	for _, g := range ghosts {
 		dir := drawDirection()
-		g.position.row, g.position.col = makeMove(g.position.row, g.position.col, dir)
+		g.Position.Row, g.Position.Col = makeMove(g.Position.Row, g.Position.Col, dir)
 	}
 }
 
@@ -320,23 +312,23 @@ func main() {
 
 		// process collisions
 		for _, g := range ghosts {
-			if player.row == g.position.row && player.col == g.position.col {
+			if player.Row == g.Position.Row && player.Col == g.Position.Col {
 				ghostsStatusMx.RLock()
-				if g.status == GhostStatusNormal {
+				if g.Status == GhostStatusNormal {
 					lives = lives - 1
 					if lives != 0 {
-						moveCursor(player.row, player.col)
+						moveCursor(player.Row, player.Col)
 						fmt.Print(cfg.Death)
 						moveCursor(len(maze)+2, 0)
 						ghostsStatusMx.RUnlock()
 						go updateGhosts(ghosts, GhostStatusNormal)
 						time.Sleep(1000 * time.Millisecond) //dramatic pause before reseting player position
-						player.row, player.col = player.startRow, player.startCol
+						player.Row, player.Col = player.StartRow, player.StartCol
 					}
-				} else if g.status == GhostStatusBlue {
+				} else if g.Status == GhostStatusBlue {
 					ghostsStatusMx.RUnlock()
-					go updateGhosts([]*ghost{g}, GhostStatusNormal)
-					g.position.row, g.position.col = g.position.startRow, g.position.startCol
+					go updateGhosts([]*pacman.Ghost{g}, GhostStatusNormal)
+					g.Position.Row, g.Position.Col = g.Position.StartRow, g.Position.StartCol
 				}
 			}
 		}
@@ -347,9 +339,9 @@ func main() {
 		// check game over
 		if numDots == 0 || lives <= 0 {
 			if lives == 0 {
-				moveCursor(player.row, player.col)
+				moveCursor(player.Row, player.Col)
 				fmt.Print(cfg.Death)
-				moveCursor(player.startRow, player.startCol-1)
+				moveCursor(player.StartRow, player.StartCol-1)
 				fmt.Print("GAME OVER")
 				moveCursor(len(maze)+2, 0)
 			}
