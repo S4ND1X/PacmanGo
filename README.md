@@ -155,6 +155,38 @@ _Don't worry if this is your first time using Golang this, guide should set ever
    go run main.go < 1 - 12 >
 ```
 
+### Build and Run
+
+- Build and run the application
+
+```sh
+   make run enemies=< 1 -12 >
+```
+
+- Test the application
+
+```sh
+   make test
+```
+
+- Build the application
+
+```sh
+   make build
+```
+
+- Install dependencies
+
+```sh
+   make deps
+```
+
+- Clean previous build
+
+```sh
+   make clean
+```
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
