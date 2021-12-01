@@ -54,7 +54,11 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![Golang Pacman Screen Shot][product-screenshot]
+
+<br/>
+
+![Winning Screen Shot][winning-screenshot]
 
 Golang is a programming language that is used to build software and is used to develop web applications, one of the advantages of using Golang is that it is a statically typed language and it is easy to write code.
 
@@ -281,3 +285,4 @@ We would like include the following resource that helped us create this project:
 [product-screenshot]: images/screenshot.jpeg
 [architecture-screenshot]: images/architecture.png
 [flow_diagram-screenshot]: images/flow_diagram.png
+[winning-screenshot]: images/winning.jpeg
