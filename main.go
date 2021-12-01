@@ -34,14 +34,14 @@ func main() {
 
 	var ghostNum int
 	if len(os.Args) != 2 {
-		log.Println("No ghost number provided or too many arguments. Correct usage: go run main.go [ghost number]")
+		log.Println("No number of enemies provided or too many arguments. Correct usage: go run main.go [number of enemies]")
 		return
 	}
 
 	ghostNum, _ = strconv.Atoi(os.Args[1])
 
 	if ghostNum < 1 || ghostNum > 12 {
-		log.Println("Invalid ghost number. It must be between 1 and 12")
+		log.Println("Invalid number of enemies. It must be between 1 and 12")
 		return
 	}
 
