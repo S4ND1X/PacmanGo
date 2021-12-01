@@ -71,8 +71,11 @@ func Run(player *Sprite, maze *[]string, numDots, score, lives *int, pillMx *syn
 				MoveCursor(player.Row, player.Col, cfg)
 				fmt.Print(cfg.Death)
 				MoveCursor(player.StartRow, player.StartCol-1, cfg)
-				fmt.Print("GAME OVER")
+				fmt.Print("GAME OVER\n")
 				MoveCursor(len(*maze)+2, 0, cfg)
+			}
+			if *numDots == 0 {
+				fmt.Print("YOU WIN!\n")
 			}
 			break
 		}
